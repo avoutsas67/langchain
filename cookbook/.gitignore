@@ -1,0 +1,23 @@
+# venv
+**/.venv*/
+
+# Jupyter Notebook
+**/.ipynb_checkpoints/
+
+# Compiled Python files
+**/__pycache__/
+
+# mypy
+**/.mypy_cache/
+
+# IDE
+**/.vscode/
+
+# PDM
+**/.pdm/
+pdm.lock
+.pdm-python
+
+# Secrets
+**/.env
+
