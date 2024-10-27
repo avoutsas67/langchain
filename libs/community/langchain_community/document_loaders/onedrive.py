@@ -1,11 +1,12 @@
 """Loads data from OneDrive"""
+
 from __future__ import annotations
 
 import logging
 from typing import TYPE_CHECKING, Iterator, List, Optional, Sequence, Union
 
 from langchain_core.documents import Document
-from langchain_core.pydantic_v1 import Field
+from pydantic import Field
 
 from langchain_community.document_loaders.base_o365 import (
     O365BaseLoader,
@@ -91,7 +92,3 @@ class OneDriveLoader(O365BaseLoader):
         if self.object_ids:
             for blob in self._load_from_object_ids(drive, self.object_ids):
                 yield from blob_parser.lazy_parse(blob)
-
-    def load(self) -> List[Document]:
-        """Load all documents."""
-        return list(self.lazy_load())

@@ -1,4 +1,5 @@
 """Test FAISS functionality."""
+
 import datetime
 import math
 import tempfile
@@ -47,6 +48,15 @@ def test_faiss() -> None:
     assert docsearch.docstore.__dict__ == expected_docstore.__dict__
     output = docsearch.similarity_search("foo", k=1)
     assert output == [Document(page_content="foo")]
+
+    # Retriever standard params
+    retriever = docsearch.as_retriever()
+    ls_params = retriever._get_ls_params()
+    assert ls_params == {
+        "ls_retriever_name": "vectorstore",
+        "ls_vector_store_provider": "FAISS",
+        "ls_embedding_provider": "FakeEmbeddings",
+    }
 
 
 @pytest.mark.requires("faiss")
@@ -608,7 +618,9 @@ def test_faiss_local_save_load() -> None:
     temp_timestamp = datetime.datetime.utcnow().strftime("%Y%m%d-%H%M%S")
     with tempfile.TemporaryDirectory(suffix="_" + temp_timestamp + "/") as temp_folder:
         docsearch.save_local(temp_folder)
-        new_docsearch = FAISS.load_local(temp_folder, FakeEmbeddings())
+        new_docsearch = FAISS.load_local(
+            temp_folder, FakeEmbeddings(), allow_dangerous_deserialization=True
+        )
     assert new_docsearch.index is not None
 
 
@@ -620,7 +632,9 @@ async def test_faiss_async_local_save_load() -> None:
     temp_timestamp = datetime.datetime.utcnow().strftime("%Y%m%d-%H%M%S")
     with tempfile.TemporaryDirectory(suffix="_" + temp_timestamp + "/") as temp_folder:
         docsearch.save_local(temp_folder)
-        new_docsearch = FAISS.load_local(temp_folder, FakeEmbeddings())
+        new_docsearch = FAISS.load_local(
+            temp_folder, FakeEmbeddings(), allow_dangerous_deserialization=True
+        )
     assert new_docsearch.index is not None
 
 

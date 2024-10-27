@@ -1,13 +1,13 @@
 from langchain.retrievers.multi_query import MultiQueryRetriever
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_chroma import Chroma
 from langchain_community.chat_models import ChatOllama, ChatOpenAI
 from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.embeddings import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_core.pydantic_v1 import BaseModel
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # Load
 loader = WebBaseLoader("https://lilianweng.github.io/posts/2023-06-23-agent/")
